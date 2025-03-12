@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Block - Naveenesh</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .block-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .block-code {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 3px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        .block-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .waf-info {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: rgba(255, 215, 0, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid #FFD700;
+        }
+
+        .waf-info p {
+            margin: 0.5rem 0;
+        }
+
+        .message {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .atom-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+        }
+
+        .shield {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 70px;
+            background-color: rgba(255, 215, 0, 0.2);
+            border: 2px solid #FFD700;
+            border-radius: 50% 50% 45% 45%;
+            z-index: 5;
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFD700;
+            z-index: 10;
+            animation: wafPulse 2s infinite ease-in-out;
+        }
+
+        .electron-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 100px;
+            height: 100px;
+            animation: rotate 4s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 140px;
+            height: 140px;
+            animation: rotate 6s linear infinite reverse;
+        }
+
+        .electron {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FFD700;
+        }
+
+        .orbit-1 .electron {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-1 .electron:nth-child(2) {
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-1 .electron:nth-child(3) {
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-1 .electron:nth-child(4) {
+            top: 50%;
+            left: 100%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron {
+            top: 20%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron:nth-child(2) {
+            top: 20%;
+            left: 80%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron:nth-child(4) {
+            top: 80%;
+            left: 80%;
+            transform: translate(-50%, -50%);
+        }
+
+        .security-icon {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            color: #FFD700;
+            z-index: 20;
+        }
+
+        .terminal-box {
+            background-color: #2a2a2a;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: left;
+            border-left: 3px solid #FFD700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-line {
+            line-height: 1.5;
+        }
+
+        .command {
+            color: #FFD700;
+        }
+
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes wafPulse {
+            0% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+            50% { box-shadow: 0 0 20px #FFD700; transform: translate(-50%, -50%) scale(1.1); }
+            100% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .info-section {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .info-section a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        .info-section a:hover {
+            text-decoration: underline;
+        }
+
+        .waf-rules {
+            margin-top: 1rem;
+            background-color: #2a2a2a;
+            padding: 0.5rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #ddd;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .block-title {
+                font-size: 2rem;
+            }
+            .block-code {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="block-title">Security Alert</h1>
+        <h2 class="block-code">403</h2>
+        
+        <div class="atom-container">
+            <div class="shield"></div>
+            <div class="nucleus"></div>
+            <div class="security-icon">⚠️</div>
+            <div class="electron-orbit orbit-1">
+                <div class="electron"></div>
+                <div class="electron"></div>
+                <div class="electron"></div>
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-2">
+                <div class="electron"></div>
+                <div class="electron"></div>
+                <div class="electron"></div>
+                <div class="electron"></div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <p>The Web Application Firewall has blocked your request for security reasons.</p>
+        </div>
+        
+        <div class="waf-info">
+            <p>Request ID: <span class="highlight">%%requestid%%</span></p>
+            <p>Your IP: <span class="highlight">%%clientip%%</span></p>
+            <p>Timestamp: <span class="highlight">%%timestamp%%</span></p>
+        </div>
+        
+        <div class="terminal-box">
+            <div class="terminal-line"><span class="command">$ security_scan</span></div>
+            <div class="terminal-line">Analyzing request pattern...</div>
+            <div class="terminal-line"><span class="error">WAF ALERT: Suspicious activity detected</span></div>
+            <div class="terminal-line">Rule triggered: <span class="highlight">%%ruleid%%</span></div>
+            <div class="terminal-line">Action: <span class="highlight">BLOCK</span></div>
+            <div class="terminal-line"><span class="command">$ </span><span class="blink">_</span></div>
+        </div>
+        
+        <div class="info-section">
+            <p>Our security system detected potentially malicious activity in your request.</p>
+            <p>If you believe this is a false positive, please try again with a different request or contact the site administrator.</p>
+            
+            <div class="waf-rules">
+                <pre>WAF Rule Information:
+Triggered Rule: %%ruleid%%
+Threat Category: %%threat_category%%</pre>
+            </div>
+        </div>
+
+        <!-- Hidden Cloudflare token -->
+        <div style="display:none;">
+            ::CLOUDFLARE_WAF_BLOCK::
+        </div>
+    </div>
+</body>
+</html>
