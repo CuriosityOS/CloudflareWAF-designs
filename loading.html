@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .atom-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 40px auto;
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFD700;
+            z-index: 10;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .electron-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 100px;
+            height: 100px;
+            animation: rotate 4s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 140px;
+            height: 140px;
+            animation: rotate 6s linear infinite reverse;
+        }
+
+        .orbit-3 {
+            width: 180px;
+            height: 180px;
+            animation: rotate 8s linear infinite;
+        }
+
+        .electron {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+        }
+
+        .orbit-1 .electron {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron {
+            top: 50%;
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+        .orbit-3 .electron {
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%);
+        }
+
+        .terminal-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            overflow: hidden;
+            white-space: nowrap;
+            letter-spacing: 0.15em;
+            animation: typing 3.5s steps(40, end) infinite;
+        }
+
+        .terminal-cursor {
+            animation: blink 1s step-end infinite;
+        }
+
+        /* Animation keyframes */
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+            50% { box-shadow: 0 0 20px #FFD700; transform: translate(-50%, -50%) scale(1.1); }
+            100% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes typing {
+            0% { width: 0 }
+            50% { width: 100% }
+            90% { width: 100% }
+            100% { width: 0 }
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1 }
+            50% { opacity: 0 }
+        }
+
+        .stats {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background-color: #333;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background-color: #FFD700;
+            animation: progress 3s forwards ease-in-out;
+        }
+
+        @keyframes progress {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="atom-container">
+            <div class="nucleus"></div>
+            <div class="electron-orbit orbit-1">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-2">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-3">
+                <div class="electron"></div>
+            </div>
+        </div>
+        <div class="terminal-text">$ loading naveenesh.dev<span class="terminal-cursor">_</span></div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="stats">
+            <span>Initializing environment...</span><br>
+            <span>Checking dependencies...</span><br>
+            <span>Loading components...</span>
+        </div>
+    </div>
+
+    <script>
+        // You can add custom JavaScript here to handle the actual loading process
+        // For example, checking when your page is fully loaded:
+        
+        window.addEventListener('load', function() {
+            // After your site is loaded, you can redirect or remove the loader
+            // setTimeout(function() {
+            //     document.querySelector('.container').style.display = 'none';
+            //     // Show your actual content
+            // }, 3000); // Adjust timing as needed
+        });
+
+        // For demonstration purposes, let's show different loading messages
+        const messages = [
+            "Initializing environment...",
+            "Checking dependencies...",
+            "Loading components...",
+            "Preparing workspace...",
+            "Optimizing performance...",
+            "Building interface..."
+        ];
+
+        let currentMessageIndex = 0;
+        const statsElement = document.querySelector('.stats');
+
+        setInterval(function() {
+            let html = '';
+            for (let i = 0; i <= currentMessageIndex && i < messages.length; i++) {
+                html += `<span>${messages[i]}</span><br>`;
+            }
+            statsElement.innerHTML = html;
+            
+            if (currentMessageIndex < messages.length - 1) {
+                currentMessageIndex++;
+            }
+        }, 800);
+    </script>
+</body>
+</html>
