@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied - Naveenesh</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .block-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .block-code {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 3px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        .block-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .location-info {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: rgba(255, 215, 0, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid #FFD700;
+        }
+
+        .location-info p {
+            margin: 0.5rem 0;
+        }
+
+        .message {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .atom-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+            transform: rotate(45deg);
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFD700;
+            z-index: 10;
+            animation: blockPulse 2s infinite ease-in-out;
+        }
+
+        .electron-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            animation: rotate 4s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 120px;
+            height: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transform: translate(-50%, -50%) rotate(60deg);
+        }
+
+        .orbit-3 {
+            width: 120px;
+            height: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transform: translate(-50%, -50%) rotate(-60deg);
+        }
+
+        .electron {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #FFD700;
+        }
+
+        .orbit-1 .electron {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron {
+            top: 50%;
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+        .orbit-3 .electron {
+            bottom: 0;
+            left: 0;
+            transform: translate(-50%, 50%);
+        }
+
+        .lock-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            z-index: 20;
+        }
+
+        .terminal-box {
+            background-color: #2a2a2a;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: left;
+            border-left: 3px solid #FFD700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-line {
+            line-height: 1.5;
+        }
+
+        .command {
+            color: #FFD700;
+        }
+
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes blockPulse {
+            0% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+            50% { box-shadow: 0 0 20px #FFD700; transform: translate(-50%, -50%) scale(1.1); }
+            100% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .info-section {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .info-section a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        .info-section a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .block-title {
+                font-size: 2rem;
+            }
+            .block-code {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="block-title">Access Denied</h1>
+        <h2 class="block-code">403</h2>
+        
+        <div class="atom-container">
+            <div class="nucleus"></div>
+            <div class="lock-icon">🔒</div>
+            <div class="electron-orbit orbit-1">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-2">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-3">
+                <div class="electron"></div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <p>Your access to this site has been restricted based on your location.</p>
+        </div>
+        
+        <div class="location-info">
+            <p>IP Address: <span class="highlight">%%ip%%</span></p>
+            <p>Country: <span class="highlight">%%country%%</span></p>
+            <p>Region: <span class="highlight">%%region%%</span></p>
+        </div>
+        
+        <div class="terminal-box">
+            <div class="terminal-line"><span class="command">$ access_check</span></div>
+            <div class="terminal-line">Running security protocols...</div>
+            <div class="terminal-line">SECURITY ALERT: Geolocation access restriction</div>
+            <div class="terminal-line">Status: <span class="highlight">BLOCKED</span></div>
+            <div class="terminal-line"><span class="command">$ </span><span class="blink">_</span></div>
+        </div>
+        
+        <div class="info-section">
+            <p>If you believe this is a mistake or need to request access, please contact the site administrator.</p>
+            <p>Reference ID: <span class="highlight">%%block_id%%</span></p>
+        </div>
+
+        <!-- Hidden Cloudflare token if needed -->
+        <div style="display:none;">
+            ::CLOUDFLARE_IP_COUNTRY_BLOCK::
+        </div>
+    </div>
+</body>
+</html>
