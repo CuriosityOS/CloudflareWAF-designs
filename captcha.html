@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Challenge</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .atom-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            overflow: visible;
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFD700;
+            z-index: 10;
+            animation: glitchPulse 3s infinite ease-in-out;
+        }
+
+        .electron-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 75px;
+            height: 75px;
+            animation: glitchRotate1 4s infinite;
+        }
+
+        .orbit-2 {
+            width: 105px;
+            height: 105px;
+            animation: glitchRotate2 6s infinite;
+        }
+
+        .orbit-3 {
+            width: 135px;
+            height: 135px;
+            animation: glitchRotate3 8s infinite;
+        }
+
+        .electron {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+        }
+
+        .orbit-1 .electron {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-2 .electron {
+            top: 50%;
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+        .orbit-3 .electron {
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%);
+        }
+        
+        /* Sparks effect */
+        .spark {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #FFE066;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #FFD700;
+            z-index: 5;
+            opacity: 0;
+        }
+        
+        .spark-1 {
+            animation: sparkFly1 2s infinite;
+        }
+        
+        .spark-2 {
+            animation: sparkFly2 2.5s infinite 0.3s;
+        }
+        
+        .spark-3 {
+            animation: sparkFly3 1.8s infinite 0.7s;
+        }
+        
+        .spark-4 {
+            animation: sparkFly4 2.2s infinite 1s;
+        }
+        
+        .spark-5 {
+            animation: sparkFly5 1.5s infinite 0.5s;
+        }
+
+        .challenge-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .challenge-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .challenge-box {
+            background-color: rgba(255, 215, 0, 0.1);
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .captcha-placeholder {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            border: 1px dashed #FFD700;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .captcha-placeholder::before {
+            content: "CAPTCHA CHALLENGE";
+            color: #FFD700;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+
+        .captcha-token {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .challenge-help {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .submit-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #FFD700;
+            color: #000;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #FFC300;
+        }
+
+        .terminal-text {
+            font-family: monospace;
+            background-color: #000;
+            color: #FFD700;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 3px;
+            text-align: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .terminal-text::before {
+            content: "$ ";
+            color: #FFD700;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #FFD700;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        /* Animation keyframes */
+        @keyframes glitchPulse {
+            0% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+            10% { box-shadow: 0 0 30px #FFD700; transform: translate(-50%, -50%) scale(1.2); }
+            15% { box-shadow: 0 0 5px #FFD700; transform: translate(-51%, -48%) scale(0.9); }
+            20% { box-shadow: 0 0 25px #FFD700; transform: translate(-50%, -50%) scale(1.1); }
+            30% { box-shadow: 0 0 10px #FFD700; transform: translate(-49%, -51%) scale(1); }
+            40% { box-shadow: 0 0 5px #FFD700; transform: translate(-50%, -50%) scale(0.95); }
+            50% { box-shadow: 0 0 20px #FFD700; transform: translate(-52%, -50%) scale(1.15); }
+            55% { box-shadow: 0 0 5px #FFD700; transform: translate(-48%, -50%) scale(0.85); }
+            60% { box-shadow: 0 0 15px #FFD700; transform: translate(-50%, -53%) scale(1.05); }
+            75% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+            80% { box-shadow: 0 0 30px #FFD700; transform: translate(-50%, -47%) scale(1.2); }
+            85% { box-shadow: 0 0 5px #FFD700; transform: translate(-53%, -50%) scale(0.9); }
+            100% { box-shadow: 0 0 10px #FFD700; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes glitchRotate1 {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            20% { transform: translate(-50%, -50%) rotate(70deg); }
+            20.1% { transform: translate(-50%, -50%) rotate(70deg); }
+            20.2% { transform: translate(-48%, -52%) rotate(70deg); opacity: 0.7; }
+            20.3% { transform: translate(-50%, -50%) rotate(70deg); opacity: 1; }
+            40% { transform: translate(-50%, -50%) rotate(180deg); }
+            40.1% { transform: translate(-50%, -50%) rotate(180deg); }
+            40.2% { transform: translate(-50%, -50%) rotate(180deg); opacity: 0.4; }
+            40.3% { transform: translate(-52%, -48%) rotate(180deg); opacity: 1; }
+            60% { transform: translate(-50%, -50%) rotate(220deg); }
+            60.1% { transform: translate(-50%, -50%) rotate(220deg); opacity: 0.8; }
+            60.2% { transform: translate(-50%, -50%) rotate(220deg); opacity: 0.3; }
+            60.3% { transform: translate(-49%, -51%) rotate(220deg); opacity: 1; }
+            70% { transform: translate(-50%, -50%) rotate(270deg); }
+            90% { transform: translate(-50%, -50%) rotate(320deg); }
+            90.1% { transform: translate(-51%, -49%) rotate(320deg); opacity: 0.6; }
+            90.2% { transform: translate(-50%, -50%) rotate(320deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes glitchRotate2 {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            15% { transform: translate(-50%, -50%) rotate(45deg); }
+            15.1% { transform: translate(-48%, -50%) rotate(45deg); opacity: 0.5; }
+            15.2% { transform: translate(-50%, -50%) rotate(45deg); opacity: 1; }
+            30% { transform: translate(-50%, -50%) rotate(120deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+            50.1% { transform: translate(-50%, -50%) rotate(180deg); opacity: 0.3; }
+            50.2% { transform: translate(-52%, -48%) rotate(180deg); opacity: 1; }
+            65% { transform: translate(-50%, -50%) rotate(240deg); }
+            85% { transform: translate(-50%, -50%) rotate(300deg); }
+            85.1% { transform: translate(-50%, -52%) rotate(300deg); opacity: 0.7; }
+            85.2% { transform: translate(-50%, -50%) rotate(300deg); opacity: 0.2; }
+            85.3% { transform: translate(-50%, -50%) rotate(300deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes glitchRotate3 {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(90deg); }
+            25.1% { transform: translate(-51%, -49%) rotate(90deg); opacity: 0.4; }
+            25.2% { transform: translate(-50%, -50%) rotate(90deg); opacity: 1; }
+            45% { transform: translate(-50%, -50%) rotate(160deg); }
+            45.1% { transform: translate(-50%, -50%) rotate(160deg); }
+            45.2% { transform: translate(-50%, -50%) rotate(160deg); opacity: 0.6; }
+            45.3% { transform: translate(-48%, -52%) rotate(160deg); opacity: 1; }
+            70% { transform: translate(-50%, -50%) rotate(250deg); }
+            70.1% { transform: translate(-52%, -50%) rotate(250deg); opacity: 0.8; }
+            70.2% { transform: translate(-50%, -50%) rotate(250deg); opacity: 0.3; }
+            70.3% { transform: translate(-50%, -48%) rotate(250deg); opacity: 1; }
+            85% { transform: translate(-50%, -50%) rotate(300deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Spark animations */
+        @keyframes sparkFly1 {
+            0% { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; width: 2px; height: 2px; }
+            5% { opacity: 1; }
+            100% { top: 10%; left: 20%; transform: translate(0, 0); opacity: 0; width: 1px; height: 1px; }
+        }
+        
+        @keyframes sparkFly2 {
+            0% { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; width: 2px; height: 2px; }
+            5% { opacity: 1; }
+            100% { top: 20%; left: 80%; transform: translate(0, 0); opacity: 0; width: 1px; height: 1px; }
+        }
+        
+        @keyframes sparkFly3 {
+            0% { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; width: 3px; height: 3px; }
+            5% { opacity: 1; }
+            100% { top: 80%; left: 85%; transform: translate(0, 0); opacity: 0; width: 1px; height: 1px; }
+        }
+        
+        @keyframes sparkFly4 {
+            0% { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; width: 2px; height: 2px; }
+            5% { opacity: 1; }
+            100% { top: 80%; left: 30%; transform: translate(0, 0); opacity: 0; width: 1px; height: 1px; }
+        }
+        
+        @keyframes sparkFly5 {
+            0% { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; width: 2px; height: 2px; }
+            5% { opacity: 1; }
+            100% { top: 30%; left: 10%; transform: translate(0, 0); opacity: 0; width: 1px; height: 1px; }
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1 }
+            50% { opacity: 0 }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="atom-container">
+            <div class="nucleus"></div>
+            <div class="electron-orbit orbit-1">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-2">
+                <div class="electron"></div>
+            </div>
+            <div class="electron-orbit orbit-3">
+                <div class="electron"></div>
+            </div>
+            <!-- Sparks -->
+            <div class="spark spark-1"></div>
+            <div class="spark spark-2"></div>
+            <div class="spark spark-3"></div>
+            <div class="spark spark-4"></div>
+            <div class="spark spark-5"></div>
+        </div>
+        
+        <div class="challenge-title">Security Check</div>
+        <div class="challenge-subtitle">Please complete the challenge to continue</div>
+        
+        <div class="terminal-text">
+            VERIFY: Human verification required<span class="terminal-cursor"></span>
+        </div>
+        
+        <div class="challenge-box">
+            <div class="captcha-placeholder">
+                <!-- This is where Cloudflare will insert the actual CAPTCHA widget -->
+                <div class="captcha-token">::CAPTCHA_BOX::</div>
+            </div>
+            
+            <div class="challenge-help">
+                <p>This additional step is required to protect our site from automated bots.</p>
+                <p>Please complete the security check to continue browsing.</p>
+            </div>
+            
+            <button class="submit-button">Verify</button>
+        </div>
+    </div>
+
+    <script>
+        // Additional glitch effects for atom
+        function addRandomGlitches() {
+            const nucleus = document.querySelector('.nucleus');
+            const orbits = document.querySelectorAll('.electron-orbit');
+            const electrons = document.querySelectorAll('.electron');
+            
+            // Random nucleus glitch
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    nucleus.style.opacity = Math.random() * 0.5 + 0.5;
+                    setTimeout(() => {
+                        nucleus.style.opacity = 1;
+                    }, 100);
+                }
+            }, 1000);
+            
+            // Random orbit stops
+            orbits.forEach(orbit => {
+                setInterval(() => {
+                    if (Math.random() > 0.8) {
+                        orbit.style.animationPlayState = 'paused';
+                        setTimeout(() => {
+                            orbit.style.animationPlayState = 'running';
+                        }, Math.random() * 400 + 100);
+                    }
+                }, 2000);
+            });
+            
+            // Random electron glitches
+            electrons.forEach(electron => {
+                setInterval(() => {
+                    if (Math.random() > 0.75) {
+                        electron.style.opacity = Math.random() * 0.3;
+                        setTimeout(() => {
+                            electron.style.opacity = 1;
+                        }, Math.random() * 300 + 50);
+                    }
+                }, 1500);
+            });
+        }
+        
+        // Start glitch effects after a short delay
+        setTimeout(addRandomGlitches, 1000);
+    </script>
+</body>
+</html>
